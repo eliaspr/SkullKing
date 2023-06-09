@@ -25,3 +25,7 @@ jar {
         attributes "Main-Class": "de.eliaspr.skullking.SkullKingMain"
     }
 }
+
+bootJar {
+    archiveFileName = "SkullKingServer.jar"
+}
