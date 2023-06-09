@@ -67,15 +67,6 @@ public class SkullKingServer {
         });
     }
 
-    @GetMapping(value = "/assets/cards/{card}", produces = "image/png")
-    public byte[] cardImage(@PathVariable String card) {
-        try {
-            return readeFileContents("cards/" + card);
-        } catch (Exception e) {
-        }
-        return new byte[]{};
-    }
-
     @GetMapping(value = "/js/{file}", produces = "text/javascript")
     public String javascript(@PathVariable String file) {
         try {
@@ -92,15 +83,6 @@ public class SkullKingServer {
         } catch (Exception e) {
         }
         return "";
-    }
-
-    @GetMapping(value = "/image/{file}", produces = {"image/jpeg", "image/png"})
-    public byte[] image(@PathVariable String file) {
-        try {
-            return readeFileContents("htdocs/image/" + file);
-        } catch (Exception e) {
-        }
-        return new byte[]{};
     }
 
     @GetMapping(value = "/{file}.png", produces = {"image/png"})
