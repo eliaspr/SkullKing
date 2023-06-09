@@ -54,10 +54,6 @@ public class SkullKing {
         return null;
     }
 
-    // TODO Warnungen beheben
-    // TODO Dockerfile erstellen
-    // TODO Build-Skript erstellen
-
     public static UUID getAccessTokenForPlayer(int gameCode, String playerName) {
         Game activeGame = getGame(gameCode);
         if (activeGame == null) {
