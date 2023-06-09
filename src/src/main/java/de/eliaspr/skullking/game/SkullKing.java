@@ -1,11 +1,16 @@
 package de.eliaspr.skullking.game;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
 public class SkullKing {
+
+    private static Logger logger = LoggerFactory.getLogger(SkullKing.class);
 
     public static final Random skullKingRNG;
     private static HashMap<UUID, Game> activeGames;
@@ -21,7 +26,7 @@ public class SkullKing {
             gameCode = skullKingRNG.nextInt(900000) + 100000;
         } while (getGame(gameCode) != null);
         Game game = new Game(gameCode);
-        System.out.println("Creating new game, code: " + gameCode + " id: " + game.gameUUID);
+        logger.info("Creating new game, code: " + gameCode + " id: " + game.gameUUID);
         activeGames.put(game.gameUUID, game);
         return game;
     }
@@ -32,7 +37,7 @@ public class SkullKing {
     }
 
     public static void closeGame(Game game) {
-        System.out.println("Force-Closing game: " + game.gameCode);
+        logger.info("Force-Closing game: " + game.gameCode);
         for (Player pl : game.getPlayers()) {
             pl.removeFromGlobalList();
             pl.forceDisconnect();
@@ -64,7 +69,7 @@ public class SkullKing {
                     return activeGame.addPlayer(playerName);
                 }
             } else {
-                System.out.println("Player " + playerName + " is re-joining lobby " + activeGame.gameCode);
+                logger.info("Player " + playerName + " is re-joining lobby " + activeGame.gameCode);
                 return player.accessToken;
             }
         }

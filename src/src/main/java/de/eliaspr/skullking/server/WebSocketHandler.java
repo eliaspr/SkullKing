@@ -2,6 +2,8 @@ package de.eliaspr.skullking.server;
 
 import de.eliaspr.skullking.game.Card;
 import de.eliaspr.skullking.game.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
@@ -11,20 +13,22 @@ import java.util.UUID;
 
 public class WebSocketHandler extends AbstractWebSocketHandler {
 
+    private static Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         String msg = message.getPayload();
         if (msg.startsWith("connect")) {
             Player player = getPlayerFromToken(msg);
             if (player != null) {
-                System.out.println("Player '" + player.name + "' connected with token " + player.accessToken.toString());
+                logger.info("Player '" + player.name + "' connected with token " + player.accessToken.toString());
                 player.webSocketSession = session;
                 player.game.broadcastGameState();
             }
         } else if (msg.startsWith("disconnect")) {
             Player player = getPlayerFromToken(msg);
             if (player != null) {
-                System.out.println("Player '" + player.name + "' disconnecting");
+                logger.info("Player '" + player.name + "' disconnecting");
                 player.webSocketSession = null;
                 player.game.removePlayer(player);
             }

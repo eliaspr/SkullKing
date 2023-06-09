@@ -5,6 +5,9 @@ import de.eliaspr.json.JSONObject;
 import de.eliaspr.json.JSONValue;
 import de.eliaspr.json.JSONWriter;
 import de.eliaspr.skullking.server.PlayerMessenger;
+import de.eliaspr.skullking.server.WebSocketHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +16,7 @@ import java.util.UUID;
 
 public class Game {
 
+    private static Logger logger = LoggerFactory.getLogger(Game.class);
     private static final JSONWriter jsonWriter = new JSONWriter().enableMinifyJSON();
 
     public final UUID gameUUID;
@@ -67,7 +71,7 @@ public class Game {
         }
         Player player = new Player(playerName, this);
         player.timeJoined = System.currentTimeMillis();
-        System.out.println("Adding player \"" + playerName + "\" to game " + gameCode + " (token: " + player.accessToken + ")");
+        logger.info("Adding player \"" + playerName + "\" to game " + gameCode + " (token: " + player.accessToken + ")");
         playerList.add(player);
         if (playerList.size() == 1 || gameMaster == null) {
             gameMaster = player;
@@ -489,7 +493,7 @@ public class Game {
     }
 
     public void playerDisconnected(Player player) {
-        System.out.println("Player '" + player.name + "' was disconnected");
+        logger.info("Player '" + player.name + "' was disconnected");
         removePlayer(player);
     }
 
