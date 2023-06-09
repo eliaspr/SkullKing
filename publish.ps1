@@ -1,4 +1,4 @@
-Set-Location "../src/"
+Set-Location "src/"
 
 $result = Select-String -Pattern "^version '(?<version>\d+\.\d+\.\d+)'" -Path "build.gradle"
 if($result.Matches.Length -eq 0) {
