@@ -86,7 +86,7 @@ function sk_processBroadcast(messageJSON) {
     if (isGameMaster) {
         if(gameState === "WAITING_FOR_CONTINUE") {
             startButton.classList.remove("d-none");
-            startButton.innerText = "Nächste Runde";
+            startButton.innerHTML = "N&auml;chste Runde";
         } else if (gameState === "FINISHED" || gameState === "WAITING_FOR_START") {
             startButton.classList.remove("d-none");
             startButton.innerText = "Spiel starten";
