@@ -10,9 +10,8 @@ import java.util.UUID;
 
 public class SkullKing {
 
-    private static final Logger logger = LoggerFactory.getLogger(SkullKing.class);
-
     public static final Random skullKingRNG;
+    private static final Logger logger = LoggerFactory.getLogger(SkullKing.class);
     private static final HashMap<UUID, Game> activeGames;
 
     static {

@@ -13,13 +13,14 @@ public class Player {
     public final String name;
     public final Game game;
     public final UUID accessToken;
+    final ArrayList<Card.CardInstance> currentCards = new ArrayList<>();
     public WebSocketSession webSocketSession;
     long timeJoined;
-    final ArrayList<Card.CardInstance> currentCards = new ArrayList<>();
     int pointTotal = 0;
     int predictedWins = -1;
     int actualWins = 0;
     int roundBonusPoints = 0;
+
     public Player(String name, Game game) {
         this.name = name;
         this.game = game;
