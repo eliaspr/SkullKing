@@ -15,7 +15,7 @@ public class Player {
     public final UUID accessToken;
     public WebSocketSession webSocketSession;
     long timeJoined;
-    ArrayList<Card.CardInstance> currentCards = new ArrayList<>();
+    final ArrayList<Card.CardInstance> currentCards = new ArrayList<>();
     int pointTotal = 0;
     int predictedWins = -1;
     int actualWins = 0;

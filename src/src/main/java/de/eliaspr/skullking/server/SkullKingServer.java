@@ -32,8 +32,7 @@ public class SkullKingServer {
     }
 
     private static byte[] readeFileContents(String file) {
-        try {
-            InputStream is = SkullKingServer.class.getResourceAsStream("/" + file);
+        try (InputStream is = SkullKingServer.class.getResourceAsStream("/" + file)) {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             int nRead;
             byte[] data = new byte[1024];
@@ -55,16 +54,12 @@ public class SkullKingServer {
 
     @GetMapping("/")
     public String index() {
-        return makeHtmlPage(stringBuilder -> {
-            stringBuilder.append(HOME_HTML);
-        });
+        return makeHtmlPage(stringBuilder -> stringBuilder.append(HOME_HTML));
     }
 
     @GetMapping("/index.html")
     public String index2() {
-        return makeHtmlPage(stringBuilder -> {
-            stringBuilder.append(HOME_HTML);
-        });
+        return makeHtmlPage(stringBuilder -> stringBuilder.append(HOME_HTML));
     }
 
     @GetMapping(value = "/js/{file}", produces = "text/javascript")
@@ -117,7 +112,7 @@ public class SkullKingServer {
                              @RequestParam("name") String playerName) {
         UUID playerToken = SkullKing.getAccessTokenForPlayer(code, playerName);
         if (playerToken != null) {
-            return new RedirectView("/game/lobby?token=" + playerToken.toString());
+            return new RedirectView("/game/lobby?token=" + playerToken);
         } else {
             return new RedirectView("/");
         }
@@ -137,12 +132,10 @@ public class SkullKingServer {
 
         return new ModelAndView((model, request, response) -> {
             String buttonHTML = "<button onclick=\"sk_masterButtonPressed()\" type=\"button\" class=\"btn btn-sm btn-success d-none\" id=\"sk-master-button\">Spiel starten</button>";
-            response.getWriter().write(makeHtmlPage(stringBuilder -> {
-                stringBuilder.append(LOBBY_HTML
-                        .replace("{playerToken}", playerToken)
-                        .replace("{lobbyCode}", String.valueOf(player.game.gameCode))
-                        .replace("{gameMasterButton}", buttonHTML));
-            }));
+            response.getWriter().write(makeHtmlPage(stringBuilder -> stringBuilder.append(LOBBY_HTML
+                    .replace("{playerToken}", playerToken)
+                    .replace("{lobbyCode}", String.valueOf(player.game.gameCode))
+                    .replace("{gameMasterButton}", buttonHTML))));
         });
     }
 

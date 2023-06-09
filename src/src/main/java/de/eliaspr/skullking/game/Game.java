@@ -5,7 +5,6 @@ import de.eliaspr.json.JSONObject;
 import de.eliaspr.json.JSONValue;
 import de.eliaspr.json.JSONWriter;
 import de.eliaspr.skullking.server.PlayerMessenger;
-import de.eliaspr.skullking.server.WebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 public class Game {
 
-    private static Logger logger = LoggerFactory.getLogger(Game.class);
+    private static final Logger logger = LoggerFactory.getLogger(Game.class);
     private static final JSONWriter jsonWriter = new JSONWriter().enableMinifyJSON();
 
     public final UUID gameUUID;

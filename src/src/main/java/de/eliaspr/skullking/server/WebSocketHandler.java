@@ -13,15 +13,15 @@ import java.util.UUID;
 
 public class WebSocketHandler extends AbstractWebSocketHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) {
         String msg = message.getPayload();
         if (msg.startsWith("connect")) {
             Player player = getPlayerFromToken(msg);
             if (player != null) {
-                logger.info("Player '" + player.name + "' connected with token " + player.accessToken.toString());
+                logger.info("Player '" + player.name + "' connected with token " + player.accessToken);
                 player.webSocketSession = session;
                 player.game.broadcastGameState();
             }
@@ -93,8 +93,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         if (i > 0 && i < message.length() - 1) {
             String tokenStr = message.substring(i + 1);
             try {
-                UUID token = UUID.fromString(tokenStr);
-                return token;
+                return UUID.fromString(tokenStr);
             } catch (IllegalArgumentException ignored) {
                 return null;
             }

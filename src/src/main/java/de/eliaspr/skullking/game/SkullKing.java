@@ -10,10 +10,10 @@ import java.util.UUID;
 
 public class SkullKing {
 
-    private static Logger logger = LoggerFactory.getLogger(SkullKing.class);
+    private static final Logger logger = LoggerFactory.getLogger(SkullKing.class);
 
     public static final Random skullKingRNG;
-    private static HashMap<UUID, Game> activeGames;
+    private static final HashMap<UUID, Game> activeGames;
 
     static {
         skullKingRNG = new Random();
@@ -53,6 +53,10 @@ public class SkullKing {
         }
         return null;
     }
+
+    // TODO Warnungen beheben
+    // TODO Dockerfile erstellen
+    // TODO Build-Skript erstellen
 
     public static UUID getAccessTokenForPlayer(int gameCode, String playerName) {
         Game activeGame = getGame(gameCode);
