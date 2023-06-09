@@ -26,14 +26,14 @@ public class SkullKingServer {
     private static final String LOBBY_HTML;
 
     static {
-        HEADER_HTML = readFileAsString("header.html");
-        HOME_HTML = readFileAsString("home.html");
-        LOBBY_HTML = readFileAsString("ingame.html");
+        HEADER_HTML = readFileAsString("layout/header.html");
+        HOME_HTML = readFileAsString("layout/home.html");
+        LOBBY_HTML = readFileAsString("layout/ingame.html");
     }
 
     private static byte[] readeFileContents(String file) {
         try {
-            InputStream is = SkullKingServer.class.getResourceAsStream("/de/eliaspr/skullking/res/" + file);
+            InputStream is = SkullKingServer.class.getResourceAsStream("/" + file);
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             int nRead;
             byte[] data = new byte[1024];
