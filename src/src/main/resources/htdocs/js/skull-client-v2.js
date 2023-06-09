@@ -27,8 +27,7 @@ let lastPrediction = -1;
 let lastGameState = "";
 
 function sk_clientInit() {
-    skullKingSocket = new WebSocket("ws://local.ehwkh.net:81/socket");
-    // skullKingSocket = new WebSocket("ws://192.168.2.176:8080/socket");
+    skullKingSocket = new WebSocket("ws://localhost:8080/socket");
 
     skullKingSocket.onopen = function (event) {
         console.log("Connected to SkullKing server");
@@ -100,7 +99,7 @@ function sk_processBroadcast(messageJSON) {
 }
 
 function sk_dom_getCardImg(cardID) {
-    return '<img height="200" src="https://assets.ehwkh.net/SkullKing/' + cardID + '.png"/>';
+    return '<img height="200" src="https://hoerneritpfs.blob.core.windows.net/skullking/cards-hq-png/' + cardID + '.png"/>';
 }
 
 function sk_dom_displayCards(cards) {

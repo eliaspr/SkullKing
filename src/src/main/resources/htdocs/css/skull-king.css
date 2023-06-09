@@ -5,6 +5,6 @@ html, body {
 }
 
 body {
-    background: url("/image/pexels-julia-volk-5273092.jpg") no-repeat center center fixed;
+    background: url("https://hoerneritpfs.blob.core.windows.net/skullking/pexels-julia-volk-5273092.jpg") no-repeat center center fixed;
     background-size: cover;
 }
