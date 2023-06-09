@@ -27,7 +27,7 @@ let lastPrediction = -1;
 let lastGameState = "";
 
 function sk_clientInit() {
-    skullKingSocket = new WebSocket("ws://localhost:8080/socket");
+    skullKingSocket = new WebSocket(((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/ws");
 
     skullKingSocket.onopen = function (event) {
         console.log("Connected to SkullKing server");
