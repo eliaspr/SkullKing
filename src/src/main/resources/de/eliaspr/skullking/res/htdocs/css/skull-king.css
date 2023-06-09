@@ -1,0 +1,10 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    background: url("/image/pexels-julia-volk-5273092.jpg") no-repeat center center fixed;
+    background-size: cover;
+}

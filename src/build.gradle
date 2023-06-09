@@ -1,0 +1,32 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group 'de.eliaspr'
+version '0.0.1'
+
+repositories {
+    mavenCentral()
+
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "de.eliaspr.skullking.SkullKingMain"
+    }
+}

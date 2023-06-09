@@ -1,0 +1,66 @@
+<div id="player-token" class="visually-hidden">{playerToken}</div>
+<div id="lobby-code" class="visually-hidden">{lobbyCode}</div>
+
+<div class="container mt-2 bg-transparent">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <div class="row">
+                <h5 class="col">SkullKing Online</h5>
+                <span class="col text-end">
+                    <span class="me-2">Spielcode: {lobbyCode}</span>
+                    {gameMasterButton}
+                    <button onclick="sk_confirmLeave()" type="button" class="me-2 btn btn-sm btn-outline-danger">Verlassen</button>
+                </span>
+            </div>
+        </div>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row" id="sk-player-display">
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row" id="sk-game-board">
+                </div>
+            </li>
+
+            <li class="list-group-item">
+                <div class="row" id="sk-own-cards">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="modal fade" id="scaryMaryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title row">
+                    <h4 class="col">Scary Mary spielen</h4>
+                </div>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="w-50" style="cursor: pointer;" onclick="sk_playCard('scarymary_flag')">
+                        <img class="w-100" src="/image/scarymary-flag.png"/>
+                        <span style="font-size: .85em;">
+                            Scary Mary als <strong>Flagge</strong> spielen
+                        </span>
+                    </div>
+                    <div class="w-50" style="cursor: pointer;" onclick="sk_playCard('scarymary_pirate')">
+                        <img class="w-100" src="/image/scarymary-pirate.png"/><br>
+                        <span style="font-size: .85em;">
+                            Scary Mary als <strong>Pirat</strong> spielen
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>sk_clientInit()</script>

@@ -1,0 +1,26 @@
+<div class="container w-50 mt-5 bg-transparent">
+    <div class="card shadow-lg">
+        <h5 class="card-header">SkullKing Online</h5>
+        <div class="card-body">
+            <p>
+                Willkomen bei SkullKing Online! Spiele SkullKing online mit deinen Freunden auf jedem Tablet, Smartphone oder Desktop!<br>
+                Hier geht's zum <a href="https://skullking.ehwkh.net/">Notizblock</a> wenn ihr zusammen in einem Raum sitzt.
+            </p>
+            <hr>
+            <form action="/game/play/">
+                <div class="mb-3">
+                    <label for="join-game-code" class="form-label">Spielcode:</label>
+                    <input type="number" class="form-control" name="code" id="join-game-code"/>
+                    <div id="emailHelp" class="form-text">Leer lassen, um ein neues Spiel zu erstellen</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="join-game-name" class="form-label">Spielername:</label>
+                    <input type="text" class="form-control" name="name" required id="join-game-name"/>
+                </div>
+
+                <button class="btn btn-outline-success">Spiel beitreten</button>
+            </form>
+        </div>
+    </div>
+</div>
