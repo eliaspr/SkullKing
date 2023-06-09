@@ -128,7 +128,7 @@ function sk_dom_displayPlayers(players, isCardPlayingMode) {
             playerHTML += '<div class="col lh-sm">';
             playerHTML += '<' + x + ' class="fs-5">' + item["name"] + "</" + x + "><br>";
             playerHTML += 'Punkte: ' + item["points"] + "<br>";
-            if ("predicted" in item && "actual" in item)
+            if (item["predicted"] != null && item["actual"] != null)
                 playerHTML += 'Stiche: ' + item["actual"] + " / " + item["predicted"];
             playerHTML += '</div>';
 

@@ -1,9 +1,9 @@
 package de.eliaspr.skullking.game;
 
-import de.eliaspr.json.JSONArray;
-import de.eliaspr.json.JSONObject;
-import de.eliaspr.json.JSONValue;
-import de.eliaspr.json.JSONWriter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.eliaspr.skullking.models.GameStateApiModel;
+import de.eliaspr.skullking.models.PlayerApiModel;
 import de.eliaspr.skullking.server.PlayerMessenger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import java.util.UUID;
 public class Game {
 
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
-    private static final JSONWriter jsonWriter = new JSONWriter().enableMinifyJSON();
+    private static final ObjectMapper jsonMapper = new ObjectMapper();
 
     public final UUID gameUUID;
     public final int gameCode;
@@ -430,47 +430,27 @@ public class Game {
     }
 
     public void broadcastGameState() {
-        JSONObject state = new JSONObject();
-        state.putString("gameState", gameState.toString());
-        state.putInteger("roundIndex", roundIndex);
-        state.putInteger("playerCount", playerList.size());
-        JSONArray players = new JSONArray(playerList.size());
-        int index = 0;
-        for (Player player : playerList) {
-            players.setObject(index++, getPlayerJSON(player));
-        }
-        state.putArray("players", players);
+        var gameStateString = gameState.toString();
+        var playerCount = playerList.size();
+        var playerApiModels = playerList.stream().map(this::getPlayerApiModel).toArray(PlayerApiModel[]::new);
 
         // copy to temp list, because sendMessageToPlayer deletes disconnected
         // players which would cause a ConcurrentModificationException
         ArrayList<Player> tempPlayers = new ArrayList<>(playerList);
         for (Player player : tempPlayers) {
-            JSONArray playerCards = getPlayerCardsJSON(player);
-            state.putArray("cards", playerCards);
-            state.putBoolean("gameMaster", player == gameMaster);
-            String jsonString = jsonWriter.writeJSON(state);
-            PlayerMessenger.sendMessageToPlayer(player, jsonString);
+            var playerCards = player.currentCards.stream().map(x -> x.card.cardID).toArray(String[]::new);
+            var apiModel = new GameStateApiModel(gameStateString, roundIndex, playerCount, playerApiModels, playerCards, player == gameMaster);
+
+            try {
+                String jsonString = jsonMapper.writeValueAsString(apiModel);
+                PlayerMessenger.sendMessageToPlayer(player, jsonString);
+            } catch (JsonProcessingException e) {
+                logger.error("Could not convert GameStateApiModel to json string", e);
+            }
         }
     }
 
-    private JSONArray getPlayerCardsJSON(Player player) {
-        JSONArray array = new JSONArray(player.currentCards.size());
-        for (int i = 0; i < array.length(); i++) {
-            array.setString(i, player.currentCards.get(i).card.cardID);
-        }
-        return array;
-    }
-
-    private JSONObject getPlayerJSON(Player player) {
-        JSONObject json = new JSONObject();
-        json.putString("name", player.name);
-        json.putBoolean("nextTurn", nextPlayer == player);
-        if (gameState == GameState.PLAYING_CARDS || gameState == GameState.WAITING_FOR_CONTINUE) {
-            json.putInteger("predicted", player.predictedWins);
-            json.putInteger("actual", player.actualWins);
-        }
-        json.putInteger("points", player.pointTotal);
-
+    private PlayerApiModel getPlayerApiModel(Player player) {
         Card.PlayedCard playedCard = null;
         for (Card.PlayedCard pc : playedCards) {
             if (pc.player == player) {
@@ -478,17 +458,18 @@ public class Game {
                 break;
             }
         }
-        if (playedCard == null) {
-            json.putValue("playedCard", JSONValue.fromNull());
-        } else {
-            if (playedCard.card == Card.SCARY_MARY) {
-                json.putString("playedCard", playedCard.isPirate() ? "scarymary-pirate" : "scarymary-flag");
-            } else {
-                json.putString("playedCard", playedCard.card.cardID);
-            }
-        }
+        var playedCardString = playedCard == null ? null : playedCard.card == Card.SCARY_MARY ? (playedCard.isPirate() ? "scarymary-pirate" : "scarymary-flag") : playedCard.card.cardID;
 
-        return json;
+        var showPredictedActual = gameState == GameState.PLAYING_CARDS || gameState == GameState.WAITING_FOR_CONTINUE;
+
+        return new PlayerApiModel(
+                player.name,
+                nextPlayer == player,
+                showPredictedActual ? player.predictedWins : null,
+                showPredictedActual ? player.actualWins : null,
+                player.pointTotal,
+                playedCardString
+        );
     }
 
     public void playerDisconnected(Player player) {
