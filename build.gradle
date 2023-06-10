@@ -31,7 +31,7 @@ bootJar {
     archiveFileName = "SkullKingServer.jar"
 }
 
-sonarqube {
+sonar {
   properties {
     property("sonar.projectKey", "hoerner-it_skullking")
     property("sonar.organization", "hoerner-it")
