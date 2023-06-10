@@ -36,4 +36,3 @@ jobs:
           args:
             -Dsonar.projectKey=hoerner-it_skullking
             -Dsonar.organization=hoerner-it
-            -Dsonar.sources=src/
