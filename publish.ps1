@@ -1,4 +1,5 @@
-Set-Location "src/"
+param ([Parameter(Mandatory)] $DockerRegistry)
+Write-Host "Using Docker registry: $DockerRegistry"
 
 $result = Select-String -Pattern "^version '(?<version>\d+\.\d+\.\d+)'" -Path "build.gradle"
 if($result.Matches.Length -eq 0) {
@@ -15,8 +16,8 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "Detected commit hash: $commit"
 
-$tagLatest = "hoernerit.azurecr.io/skull-king:latest"
-$tagVersioned = "hoernerit.azurecr.io/skull-king:$version-$commit"
+$tagLatest = "$DockerRegistry/skull-king:latest"
+$tagVersioned = "$DockerRegistry/skull-king:$version-$commit"
 Write-Host "Docker image tags: $tagVersioned $tagLatest"
 
 ./gradlew clean

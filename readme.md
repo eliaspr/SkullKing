@@ -12,7 +12,7 @@ Use the following command to clone a copy of the repository:
 git clone https://github.com/eliaspr/SkullKing
 ```
 
-Inside the `src` directory, run the following command to start a local instance of the SkullKing server:
+Next, run the following command to start a local instance of the SkullKing server:
 
 ```shell
 gradlew bootRun
@@ -26,22 +26,26 @@ The server stores all game session related data in memory only. Currently, there
 
 ## Build & Deployment
 
-The project contains a `Dockerfile` for simple deployment using Docker. The docker image can be built by running the following commands in the `src` directory:
+The project contains a `Dockerfile` for simple deployment using Docker. The docker image can be built by running the following commands:
 
 ```shell
 gradlew bootJar
 docker build -t skull-king .
 ```
 
-For automated deployment, the project contains a `publish.ps1` script which detects version information, builds the docker image and pushes the image to the `hoernerit.azurecr.io` container registry. Run the script by executing the `publish.ps1` or `publish.bat` file.  
-
-You can start an instance of the Docker image using the following command:
+For automated build and release, the project contains a `publish.ps1` script which detects version information, builds the docker image and pushes the image to the specified container registry. Run the script by executing the `publish.ps1` file (make sure to specify the correct docker registry):
 
 ```shell
-docker run -d --rm --name SkullKing -p 8080:8080 hoernerit.azurecr.io/skull-king:latest
+powershell.exe -ExecutionPolicy Unrestricted publish.ps1 -DockerRegistry example.docker.io
 ```
 
-> **Note**: Any action involving the `hoernerit.azurecr.io` container registry requires proper authentication. Run `docker login hoernerit.azurecr.io` and provide your credentials in order to pull or push the `skull-king` image.
+You can start an instance of the Docker image using the following command (make sure to use the correct image name when pulling from a repository):
+
+```shell
+docker run -d --rm --name SkullKing -p 8080:8080 skull-king:latest
+```
+
+> **Note**: Any push/pull actions require authentication with the corresponding docker registry. Run `docker login` and provide your credentials in order to pull or push the `skull-king` image.
 
 Alternatively, use the following `docker-compose` template:
 
@@ -49,8 +53,8 @@ Alternatively, use the following `docker-compose` template:
 version: '3.8'
 services:
   SkullKing:
-    image: 'hoernerit.azurecr.io/skull-king:latest'
-    container_name: SkullKing
+    image: 'skull-king:latest'
+    container_name: 'SkullKing'
     ports:
       - '8080:8080'
 ```
