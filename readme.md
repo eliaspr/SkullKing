@@ -4,6 +4,8 @@
 
 A digital recreation of the german card game [SkullKing](https://www.schmidtspiele.de/details/produkt/skull-king.html). The server is written in Java using the Spring framework and is accessed by the client using a standard web browser. Client-side logic is implemented in plain JavaScript and communication with the server is done via web socket.
 
+See a list of recent changes in [changelog.md](./changelog.md).
+
 ## Getting started
 
 Use the following command to clone a copy of the repository:
