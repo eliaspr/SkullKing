@@ -23,6 +23,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - run: chmod +x ./gradlew
       - name: Gradle Build
         uses: gradle/gradle-build-action@v2.4.2
         with:
