@@ -1,5 +1,7 @@
 # SkullKing Online
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hoerner-it_skullking&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=hoerner-it_skullking) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=hoerner-it_skullking&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=hoerner-it_skullking) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=hoerner-it_skullking&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=hoerner-it_skullking) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=hoerner-it_skullking&metric=bugs)](https://sonarcloud.io/summary/new_code?id=hoerner-it_skullking)
+
 A digital recreation of the german card game [SkullKing](https://www.schmidtspiele.de/details/produkt/skull-king.html). The server is written in Java using the Spring framework and is accessed by the client using a standard web browser. Client-side logic is implemented in plain JavaScript and communication with the server is done via web socket.
 
 ## Getting started
