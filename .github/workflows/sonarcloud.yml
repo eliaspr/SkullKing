@@ -18,6 +18,14 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+      - name: Gradle Build
+        uses: gradle/gradle-build-action@v2.4.2
+        with:
+          arguments: build
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@v1.9.1
         env:
