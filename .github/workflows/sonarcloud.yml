@@ -21,8 +21,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          projectBaseDir: /
+          projectBaseDir: src/
           args:
             -Dsonar.projectKey=hoerner-it_skullking
             -Dsonar.organization=hoerner-it
-            -Dsonar.sources=src/
