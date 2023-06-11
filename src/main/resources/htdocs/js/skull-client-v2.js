@@ -53,8 +53,9 @@ function sk_clientInit() {
 }
 
 function sk_sendMessage(message) {
-    if (skullKingSocket != null)
+    if (skullKingSocket != null) {
         skullKingSocket.send(message);
+    }
 }
 
 function sk_processBroadcast(messageJSON) {
