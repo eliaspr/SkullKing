@@ -21,6 +21,9 @@ import org.springframework.web.servlet.view.RedirectView;
 @SpringBootApplication
 @RestController
 public class SkullKingServer {
+    
+    
+    
     private static final Logger logger = LoggerFactory.getLogger(SkullKingServer.class);
 
     private static String HEADER_HTML;
