@@ -8,5 +8,4 @@ public class SkullKingMain {
     public static void main(String[] args) {
         SpringApplication.run(SkullKingServer.class);
     }
-
 }

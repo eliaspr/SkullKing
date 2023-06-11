@@ -2,6 +2,11 @@ package de.eliaspr.skullking.server;
 
 import de.eliaspr.skullking.game.Player;
 import de.eliaspr.skullking.game.SkullKing;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.UUID;
+import java.util.function.Consumer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,12 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.UUID;
-import java.util.function.Consumer;
 
 @SpringBootApplication
 @RestController
@@ -45,7 +44,7 @@ public class SkullKingServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new byte[]{};
+        return new byte[] {};
     }
 
     private static String readFileAsString(String file) {
@@ -80,22 +79,26 @@ public class SkullKingServer {
         return "";
     }
 
-    @GetMapping(value = "/{file}.png", produces = {"image/png"})
+    @GetMapping(
+            value = "/{file}.png",
+            produces = {"image/png"})
     public byte[] icon(@PathVariable String file) {
         try {
             return readeFileContents("htdocs/" + file + ".png");
         } catch (Exception e) {
         }
-        return new byte[]{};
+        return new byte[] {};
     }
 
-    @GetMapping(value = "/favicon.ico", produces = {"image/x-icon"})
+    @GetMapping(
+            value = "/favicon.ico",
+            produces = {"image/x-icon"})
     public byte[] icon() {
         try {
             return readeFileContents("htdocs/favicon.ico");
         } catch (Exception e) {
         }
-        return new byte[]{};
+        return new byte[] {};
     }
 
     private String makeHtmlPage(Consumer<StringBuilder> body) {
@@ -107,9 +110,12 @@ public class SkullKingServer {
         return html.toString();
     }
 
-    @GetMapping(value = "/game/play", params = {"code", "name"})
-    public RedirectView play(@RequestParam(value = "code", required = false, defaultValue = "0") int code,
-                             @RequestParam("name") String playerName) {
+    @GetMapping(
+            value = "/game/play",
+            params = {"code", "name"})
+    public RedirectView play(
+            @RequestParam(value = "code", required = false, defaultValue = "0") int code,
+            @RequestParam("name") String playerName) {
         UUID playerToken = SkullKing.getAccessTokenForPlayer(code, playerName);
         if (playerToken != null) {
             return new RedirectView("/game/lobby?token=" + playerToken);
@@ -118,7 +124,9 @@ public class SkullKingServer {
         }
     }
 
-    @GetMapping(value = "/game/lobby", params = {"token"})
+    @GetMapping(
+            value = "/game/lobby",
+            params = {"token"})
     public ModelAndView lobby(ModelMap modelMap, @RequestParam("token") String playerToken) {
         UUID tokenUUID = null;
         try {
@@ -131,12 +139,13 @@ public class SkullKingServer {
         }
 
         return new ModelAndView((model, request, response) -> {
-            String buttonHTML = "<button onclick=\"sk_masterButtonPressed()\" type=\"button\" class=\"btn btn-sm btn-success d-none\" id=\"sk-master-button\">Spiel starten</button>";
-            response.getWriter().write(makeHtmlPage(stringBuilder -> stringBuilder.append(LOBBY_HTML
-                    .replace("{playerToken}", playerToken)
-                    .replace("{lobbyCode}", String.valueOf(player.game.gameCode))
-                    .replace("{gameMasterButton}", buttonHTML))));
+            String buttonHTML =
+                    "<button onclick=\"sk_masterButtonPressed()\" type=\"button\" class=\"btn btn-sm btn-success d-none\" id=\"sk-master-button\">Spiel starten</button>";
+            response.getWriter()
+                    .write(makeHtmlPage(stringBuilder -> stringBuilder.append(LOBBY_HTML
+                            .replace("{playerToken}", playerToken)
+                            .replace("{lobbyCode}", String.valueOf(player.game.gameCode))
+                            .replace("{gameMasterButton}", buttonHTML))));
         });
     }
-
 }

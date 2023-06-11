@@ -1,12 +1,10 @@
 package de.eliaspr.skullking.game;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SkullKing {
 
@@ -74,5 +72,4 @@ public class SkullKing {
         }
         return null;
     }
-
 }

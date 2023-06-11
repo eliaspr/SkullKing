@@ -1,9 +1,8 @@
 package de.eliaspr.skullking.server;
 
 import de.eliaspr.skullking.game.Player;
-import org.springframework.web.socket.TextMessage;
-
 import java.io.IOException;
+import org.springframework.web.socket.TextMessage;
 
 public class PlayerMessenger {
 
@@ -21,5 +20,4 @@ public class PlayerMessenger {
             e.printStackTrace();
         }
     }
-
 }

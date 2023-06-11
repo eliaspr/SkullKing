@@ -1,11 +1,10 @@
 package de.eliaspr.skullking.game;
 
-import org.springframework.web.socket.WebSocketSession;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
+import org.springframework.web.socket.WebSocketSession;
 
 public class Player {
 

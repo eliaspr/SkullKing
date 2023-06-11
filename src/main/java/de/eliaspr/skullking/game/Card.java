@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public enum Card {
-
     SKULL_KING("skullking", -1, CardColor.SPECIAL, 1),
     PIRATE_BETTY("pirate-betty", -1, CardColor.SPECIAL, 1),
     PIRATE_EMMY("pirate-emmy", -1, CardColor.SPECIAL, 1),
@@ -158,7 +157,5 @@ public enum Card {
         public boolean isPirate() {
             return card.isPirate || (card == SCARY_MARY && scaryMaryMode == ScaryMaryMode.PLAY_AS_PIRATE);
         }
-
     }
-
 }

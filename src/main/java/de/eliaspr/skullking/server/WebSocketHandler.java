@@ -2,14 +2,13 @@ package de.eliaspr.skullking.server;
 
 import de.eliaspr.skullking.game.Card;
 import de.eliaspr.skullking.game.Player;
+import java.io.IOException;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
-
-import java.io.IOException;
-import java.util.UUID;
 
 public class WebSocketHandler extends AbstractWebSocketHandler {
 
@@ -100,5 +99,4 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         }
         return null;
     }
-
 }

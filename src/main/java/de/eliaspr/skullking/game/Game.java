@@ -5,13 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.eliaspr.skullking.models.GameStateApiModel;
 import de.eliaspr.skullking.models.PlayerApiModel;
 import de.eliaspr.skullking.server.PlayerMessenger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Game {
 
@@ -70,7 +69,8 @@ public class Game {
         }
         Player player = new Player(playerName, this);
         player.timeJoined = System.currentTimeMillis();
-        logger.info("Adding player \"" + playerName + "\" to game " + gameCode + " (token: " + player.accessToken + ")");
+        logger.info(
+                "Adding player \"" + playerName + "\" to game " + gameCode + " (token: " + player.accessToken + ")");
         playerList.add(player);
         if (playerList.size() == 1 || gameMaster == null) {
             gameMaster = player;
@@ -192,7 +192,11 @@ public class Game {
     private void playCard(Card.PlayedCard playedCard) {
         boolean isPlayAllowed;
         Card card = playedCard.card;
-        if (card == Card.FLAG || card.isPirate || card == Card.SKULL_KING || card == Card.SCARY_MARY || card == Card.MERMAID) {
+        if (card == Card.FLAG
+                || card.isPirate
+                || card == Card.SKULL_KING
+                || card == Card.SCARY_MARY
+                || card == Card.MERMAID) {
             isPlayAllowed = true;
         } else {
             Card.CardColor forcedColor = null;
@@ -438,8 +442,10 @@ public class Game {
         // players which would cause a ConcurrentModificationException
         ArrayList<Player> tempPlayers = new ArrayList<>(playerList);
         for (Player player : tempPlayers) {
-            var playerCards = player.currentCards.stream().map(x -> x.card.cardID).toArray(String[]::new);
-            var apiModel = new GameStateApiModel(gameStateString, roundIndex, playerCount, playerApiModels, playerCards, player == gameMaster);
+            var playerCards =
+                    player.currentCards.stream().map(x -> x.card.cardID).toArray(String[]::new);
+            var apiModel = new GameStateApiModel(
+                    gameStateString, roundIndex, playerCount, playerApiModels, playerCards, player == gameMaster);
 
             try {
                 String jsonString = jsonMapper.writeValueAsString(apiModel);
@@ -458,7 +464,11 @@ public class Game {
                 break;
             }
         }
-        var playedCardString = playedCard == null ? null : playedCard.card == Card.SCARY_MARY ? (playedCard.isPirate() ? "scarymary-pirate" : "scarymary-flag") : playedCard.card.cardID;
+        var playedCardString = playedCard == null
+                ? null
+                : playedCard.card == Card.SCARY_MARY
+                        ? (playedCard.isPirate() ? "scarymary-pirate" : "scarymary-flag")
+                        : playedCard.card.cardID;
 
         var showPredictedActual = gameState == GameState.PLAYING_CARDS || gameState == GameState.WAITING_FOR_CONTINUE;
 
@@ -468,8 +478,7 @@ public class Game {
                 showPredictedActual ? player.predictedWins : null,
                 showPredictedActual ? player.actualWins : null,
                 player.pointTotal,
-                playedCardString
-        );
+                playedCardString);
     }
 
     public void playerDisconnected(Player player) {
@@ -490,5 +499,4 @@ public class Game {
         PLAYING_CARDS,
         FINISHED
     }
-
 }
