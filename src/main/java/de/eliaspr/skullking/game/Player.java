@@ -12,7 +12,7 @@ public class Player {
     public final String name;
     public final Game game;
     public final UUID accessToken;
-    final ArrayList<Card.CardInstance> currentCards = new ArrayList<>();
+    final ArrayList<CardInstance> currentCards = new ArrayList<>();
     public WebSocketSession webSocketSession;
     long timeJoined;
     int pointTotal = 0;
@@ -57,7 +57,7 @@ public class Player {
         game.notifyPredictedWins(this, numPredicted);
     }
 
-    public void notifyPlayCard(Card card, Card.ScaryMaryMode scaryMaryMode) {
+    public void notifyPlayCard(Card card, ScaryMaryMode scaryMaryMode) {
         game.notifyPlayCard(this, card, scaryMaryMode);
     }
 

@@ -4,6 +4,8 @@ import de.eliaspr.skullking.game.Card;
 import de.eliaspr.skullking.game.Player;
 import java.io.IOException;
 import java.util.UUID;
+
+import de.eliaspr.skullking.game.ScaryMaryMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.TextMessage;
@@ -70,9 +72,9 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         } else if (cmd.startsWith("play")) {
             String cardID = cmd.substring(4);
             if (cardID.equalsIgnoreCase("scarymary_flag")) {
-                player.notifyPlayCard(Card.SCARY_MARY, Card.ScaryMaryMode.PLAY_AS_FLAG);
+                player.notifyPlayCard(Card.SCARY_MARY, ScaryMaryMode.PLAY_AS_FLAG);
             } else if (cardID.equalsIgnoreCase("scarymary_pirate")) {
-                player.notifyPlayCard(Card.SCARY_MARY, Card.ScaryMaryMode.PLAY_AS_PIRATE);
+                player.notifyPlayCard(Card.SCARY_MARY, ScaryMaryMode.PLAY_AS_PIRATE);
             } else {
                 Card card = Card.getCard(cardID);
                 if (card != null) {

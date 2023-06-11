@@ -20,7 +20,7 @@ public class Game {
     public final UUID gameUUID;
     public final int gameCode;
     private final ArrayList<Player> playerList = new ArrayList<>();
-    private final ArrayList<Card.PlayedCard> playedCards = new ArrayList<>();
+    private final ArrayList<PlayedCard> playedCards = new ArrayList<>();
     private Player gameMaster = null;
     private GameState gameState = GameState.WAITING_FOR_START;
     private int roundIndex;
@@ -140,14 +140,14 @@ public class Game {
     }
 
     private void shuffleCards() {
-        ArrayList<Card.CardInstance> cards = Card.getCardDeck(true);
+        ArrayList<CardInstance> cards = Card.getCardDeck(true);
         for (Player player : playerList) {
             player.currentCards.clear();
         }
         for (int i = 1; i <= roundIndex; i++) {
             for (Player player : playerList) {
                 int j = cards.size() - 1;
-                Card.CardInstance next = cards.get(j);
+                CardInstance next = cards.get(j);
                 cards.remove(j);
                 player.currentCards.add(next);
             }
@@ -171,10 +171,10 @@ public class Game {
         }
     }
 
-    public void notifyPlayCard(Player player, Card card, Card.ScaryMaryMode scaryMaryMode) {
+    public void notifyPlayCard(Player player, Card card, ScaryMaryMode scaryMaryMode) {
         if (gameState == GameState.PLAYING_CARDS && player == nextPlayer) {
             boolean doesPlayerHaveCard = false;
-            for (Card.CardInstance playerCard : player.currentCards) {
+            for (CardInstance playerCard : player.currentCards) {
                 if (playerCard.card == card) {
                     doesPlayerHaveCard = true;
                     break;
@@ -184,12 +184,12 @@ public class Game {
                 return;
             }
 
-            Card.PlayedCard playedCard = new Card.PlayedCard(player, card, scaryMaryMode);
+            PlayedCard playedCard = new PlayedCard(player, card, scaryMaryMode);
             playCard(playedCard);
         }
     }
 
-    private void playCard(Card.PlayedCard playedCard) {
+    private void playCard(PlayedCard playedCard) {
         boolean isPlayAllowed;
         Card card = playedCard.card;
         if (card == Card.FLAG
@@ -199,8 +199,8 @@ public class Game {
                 || card == Card.MERMAID) {
             isPlayAllowed = true;
         } else {
-            Card.CardColor forcedColor = null;
-            for (Card.PlayedCard previous : playedCards) {
+            CardColor forcedColor = null;
+            for (PlayedCard previous : playedCards) {
                 if (previous.isFlag()) {
                     continue;
                 }
@@ -212,11 +212,11 @@ public class Game {
             } else {
                 if (playedCard.card.cardColor == forcedColor) {
                     isPlayAllowed = true;
-                } else if (playedCard.card.cardColor == Card.CardColor.BLACK) {
+                } else if (playedCard.card.cardColor == CardColor.BLACK) {
                     isPlayAllowed = true;
                 } else {
                     boolean doesPlayerHaveColor = false;
-                    for (Card.CardInstance playerCard : playedCard.player.currentCards) {
+                    for (CardInstance playerCard : playedCard.player.currentCards) {
                         if (playerCard.card.cardColor == forcedColor) {
                             doesPlayerHaveColor = true;
                             break;
@@ -248,7 +248,7 @@ public class Game {
         nextPlayer = playerList.get(playerIndex);
 
         if (playedCards.size() == playerList.size()) {
-            Card.PlayedCard winningCard = getWinningCard();
+            PlayedCard winningCard = getWinningCard();
             if (winningCard == null) {
                 winningCard = playedCards.get(0);
             }
@@ -311,20 +311,20 @@ public class Game {
         broadcastGameState();
     }
 
-    private Card.PlayedCard getWinningCard() {
+    private PlayedCard getWinningCard() {
         if (playedCards.isEmpty()) {
             return null;
         }
 
-        Card.PlayedCard skullKing = wasCardPlayed(Card.SKULL_KING);
+        PlayedCard skullKing = wasCardPlayed(Card.SKULL_KING);
         if (skullKing != null) {
-            Card.PlayedCard firstMermaid = wasCardPlayed(Card.MERMAID);
+            PlayedCard firstMermaid = wasCardPlayed(Card.MERMAID);
             if (firstMermaid != null) {
                 firstMermaid.bonusPointsReceived += 50;
                 return firstMermaid;
             } else {
                 int pirateCount = 0;
-                for (Card.PlayedCard playedCard : playedCards) {
+                for (PlayedCard playedCard : playedCards) {
                     if (playedCard.isPirate()) {
                         pirateCount++;
                     }
@@ -334,9 +334,9 @@ public class Game {
             }
         }
 
-        Card.PlayedCard winningCard = null;
-        Card.CardColor acceptedColor = null;
-        for (Card.PlayedCard next : playedCards) {
+        PlayedCard winningCard = null;
+        CardColor acceptedColor = null;
+        for (PlayedCard next : playedCards) {
             if (winningCard == null) {
                 winningCard = next;
                 if (!winningCard.isFlag()) {
@@ -374,8 +374,8 @@ public class Game {
                 if (winningCard.card != Card.MERMAID && !winningCard.isPirate()) {
                     boolean doesNextCardWin;
 
-                    if (next.card.cardColor == Card.CardColor.BLACK) {
-                        if (winningCard.card.cardColor == Card.CardColor.BLACK) {
+                    if (next.card.cardColor == CardColor.BLACK) {
+                        if (winningCard.card.cardColor == CardColor.BLACK) {
                             doesNextCardWin = next.card.numericValue > winningCard.card.numericValue;
                         } else {
                             doesNextCardWin = true;
@@ -392,7 +392,7 @@ public class Game {
 
                     if (doesNextCardWin) {
                         winningCard = next;
-                        if (acceptedColor == null || next.card.cardColor == Card.CardColor.BLACK) {
+                        if (acceptedColor == null || next.card.cardColor == CardColor.BLACK) {
                             acceptedColor = next.card.cardColor;
                         }
                     }
@@ -402,8 +402,8 @@ public class Game {
         return winningCard;
     }
 
-    private Card.PlayedCard wasCardPlayed(Card cardType) {
-        for (Card.PlayedCard playedCard : playedCards) {
+    private PlayedCard wasCardPlayed(Card cardType) {
+        for (PlayedCard playedCard : playedCards) {
             if (playedCard.card == cardType) {
                 return playedCard;
             }
@@ -457,8 +457,8 @@ public class Game {
     }
 
     private PlayerApiModel getPlayerApiModel(Player player) {
-        Card.PlayedCard playedCard = null;
-        for (Card.PlayedCard pc : playedCards) {
+        PlayedCard playedCard = null;
+        for (PlayedCard pc : playedCards) {
             if (pc.player == player) {
                 playedCard = pc;
                 break;
