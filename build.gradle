@@ -38,6 +38,7 @@ sonar {
         property("sonar.organization", "hoerner-it")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.projectName", "SkullKing")
+        property("sonar.sources", "src/main/java,src/resources/htdocs,src/resources/layout")
     }
 }
 
