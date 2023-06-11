@@ -2,10 +2,9 @@ package de.eliaspr.skullking.server;
 
 import de.eliaspr.skullking.game.Card;
 import de.eliaspr.skullking.game.Player;
+import de.eliaspr.skullking.game.ScaryMaryMode;
 import java.io.IOException;
 import java.util.UUID;
-
-import de.eliaspr.skullking.game.ScaryMaryMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.TextMessage;

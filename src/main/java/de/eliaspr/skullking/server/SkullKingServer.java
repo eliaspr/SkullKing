@@ -2,6 +2,10 @@ package de.eliaspr.skullking.server;
 
 import de.eliaspr.skullking.game.Player;
 import de.eliaspr.skullking.game.SkullKing;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.UUID;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,11 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.UUID;
-import java.util.function.Consumer;
 
 @SpringBootApplication
 @RestController
@@ -54,18 +53,26 @@ public class SkullKingServer {
         return getFileContentAsResponse("htdocs/css/" + file, false);
     }
 
-    @GetMapping(value = "/{file}.png", produces = {"image/png"})
+    @GetMapping(
+            value = "/{file}.png",
+            produces = {"image/png"})
     public ResponseEntity<Object> getPngIcon(@PathVariable String file) {
         return getFileContentAsResponse("htdocs/" + file + ".png", true);
     }
 
-    @GetMapping(value = "/favicon.ico", produces = {"image/x-icon"})
+    @GetMapping(
+            value = "/favicon.ico",
+            produces = {"image/x-icon"})
     public ResponseEntity<Object> getIcoIcon() {
         return getFileContentAsResponse("htdocs/favicon.ico", true);
     }
 
-    @GetMapping(value = "/game/play", params = {"code", "name"})
-    public RedirectView redirectToGameLobby(@RequestParam(value = "code", required = false, defaultValue = "0") int code, @RequestParam("name") String playerName) {
+    @GetMapping(
+            value = "/game/play",
+            params = {"code", "name"})
+    public RedirectView redirectToGameLobby(
+            @RequestParam(value = "code", required = false, defaultValue = "0") int code,
+            @RequestParam("name") String playerName) {
         var playerToken = SkullKing.getAccessTokenForPlayer(code, playerName);
         if (playerToken != null) {
             return new RedirectView("/game/lobby?token=" + playerToken);
@@ -74,7 +81,9 @@ public class SkullKingServer {
         }
     }
 
-    @GetMapping(value = "/game/lobby", params = {"token"})
+    @GetMapping(
+            value = "/game/lobby",
+            params = {"token"})
     public ModelAndView getGameLobbyPage(ModelMap modelMap, @RequestParam("token") String playerToken) {
         UUID tokenUUID = null;
         try {

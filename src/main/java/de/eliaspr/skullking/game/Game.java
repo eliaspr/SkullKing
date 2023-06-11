@@ -442,8 +442,7 @@ public class Game {
         // players which would cause a ConcurrentModificationException
         var tempPlayers = new ArrayList<Player>(playerList);
         for (var player : tempPlayers) {
-            var playerCards =
-                    player.currentCards.stream().map(x -> x.cardID).toArray(String[]::new);
+            var playerCards = player.currentCards.stream().map(x -> x.cardID).toArray(String[]::new);
             var apiModel = new GameStateApiModel(
                     gameStateString, roundIndex, playerCount, playerApiModels, playerCards, player == gameMaster);
 

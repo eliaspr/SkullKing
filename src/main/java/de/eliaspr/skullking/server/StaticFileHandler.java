@@ -9,7 +9,7 @@ public class StaticFileHandler {
     // TODO Add cache for file content
     public static byte[] readeFileContents(String file) throws IOException {
         try (var stream = SkullKingServer.class.getResourceAsStream("/" + file)) {
-            if(stream == null) {
+            if (stream == null) {
                 throw new FileNotFoundException(file);
             }
 
@@ -23,7 +23,7 @@ public class StaticFileHandler {
             buffer.flush();
             return buffer.toByteArray();
         } catch (IOException e) {
-            if(e instanceof FileNotFoundException) {
+            if (e instanceof FileNotFoundException) {
                 throw e;
             } else {
                 throw new IOException("Could not load file from classpath: " + file, e);

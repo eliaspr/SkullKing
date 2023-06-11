@@ -109,5 +109,4 @@ public enum Card {
     public boolean isNumeric() {
         return numericValue >= 1;
     }
-
 }
