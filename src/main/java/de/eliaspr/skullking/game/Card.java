@@ -93,11 +93,11 @@ public enum Card {
         return null;
     }
 
-    public static ArrayList<CardInstance> getCardDeck(boolean shuffled) {
-        ArrayList<CardInstance> list = new ArrayList<>();
+    public static ArrayList<Card> getCardDeck(boolean shuffled) {
+        ArrayList<Card> list = new ArrayList<>();
         for (Card card : Card.values()) {
             for (int i = 0; i < card.instanceCount; i++) {
-                list.add(new CardInstance(card));
+                list.add(card);
             }
         }
         if (shuffled) {

@@ -12,7 +12,7 @@ public class Player {
     public final String name;
     public final Game game;
     public final UUID accessToken;
-    final ArrayList<CardInstance> currentCards = new ArrayList<>();
+    final ArrayList<Card> currentCards = new ArrayList<>();
     public WebSocketSession webSocketSession;
     long timeJoined;
     int pointTotal = 0;

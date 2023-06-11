@@ -140,14 +140,14 @@ public class Game {
     }
 
     private void shuffleCards() {
-        ArrayList<CardInstance> cards = Card.getCardDeck(true);
+        ArrayList<Card> cards = Card.getCardDeck(true);
         for (Player player : playerList) {
             player.currentCards.clear();
         }
         for (int i = 1; i <= roundIndex; i++) {
             for (Player player : playerList) {
                 int j = cards.size() - 1;
-                CardInstance next = cards.get(j);
+                Card next = cards.get(j);
                 cards.remove(j);
                 player.currentCards.add(next);
             }
@@ -174,8 +174,8 @@ public class Game {
     public void notifyPlayCard(Player player, Card card, ScaryMaryMode scaryMaryMode) {
         if (gameState == GameState.PLAYING_CARDS && player == nextPlayer) {
             boolean doesPlayerHaveCard = false;
-            for (CardInstance playerCard : player.currentCards) {
-                if (playerCard.card == card) {
+            for (Card playerCard : player.currentCards) {
+                if (playerCard == card) {
                     doesPlayerHaveCard = true;
                     break;
                 }
@@ -216,8 +216,8 @@ public class Game {
                     isPlayAllowed = true;
                 } else {
                     boolean doesPlayerHaveColor = false;
-                    for (CardInstance playerCard : playedCard.player.currentCards) {
-                        if (playerCard.card.cardColor == forcedColor) {
+                    for (Card playerCard : playedCard.player.currentCards) {
+                        if (playerCard.cardColor == forcedColor) {
                             doesPlayerHaveColor = true;
                             break;
                         }
@@ -234,7 +234,7 @@ public class Game {
 
         Player player1 = playedCard.player;
         for (int i = 0; i < player1.currentCards.size(); i++) {
-            if (player1.currentCards.get(i).card == playedCard.card) {
+            if (player1.currentCards.get(i) == playedCard.card) {
                 player1.currentCards.remove(i);
                 break;
             }
@@ -443,7 +443,7 @@ public class Game {
         ArrayList<Player> tempPlayers = new ArrayList<>(playerList);
         for (Player player : tempPlayers) {
             var playerCards =
-                    player.currentCards.stream().map(x -> x.card.cardID).toArray(String[]::new);
+                    player.currentCards.stream().map(x -> x.cardID).toArray(String[]::new);
             var apiModel = new GameStateApiModel(
                     gameStateString, roundIndex, playerCount, playerApiModels, playerCards, player == gameMaster);
 
