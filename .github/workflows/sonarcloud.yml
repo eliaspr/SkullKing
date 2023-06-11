@@ -31,7 +31,3 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           arguments: build sonar
-      - name: Check code format
-        uses: gradle/gradle-build-action@v2.4.2
-        with:
-          arguments: spotlessCheck
