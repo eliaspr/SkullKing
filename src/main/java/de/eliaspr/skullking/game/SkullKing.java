@@ -22,20 +22,20 @@ public class SkullKing {
         do {
             gameCode = skullKingRNG.nextInt(900000) + 100000;
         } while (getGame(gameCode) != null);
-        Game game = new Game(gameCode);
+        var game = new Game(gameCode);
         logger.info("Creating new game, code: " + gameCode + " id: " + game.gameUUID);
         activeGames.put(game.gameUUID, game);
         return game;
     }
 
     private static UUID createNewGameAndAddPlayer(String playerName) {
-        Game game = createNewGame();
+        var game = createNewGame();
         return game.addPlayer(playerName);
     }
 
     public static void closeGame(Game game) {
         logger.info("Force-Closing game: " + game.gameCode);
-        for (Player pl : game.getPlayers()) {
+        for (var pl : game.getPlayers()) {
             pl.removeFromGlobalList();
             pl.forceDisconnect();
         }
@@ -43,7 +43,7 @@ public class SkullKing {
     }
 
     public static Game getGame(int gameCode) {
-        for (Game game : activeGames.values()) {
+        for (var game : activeGames.values()) {
             if (game.gameCode == gameCode) {
                 return game;
             }
@@ -52,7 +52,7 @@ public class SkullKing {
     }
 
     public static UUID getAccessTokenForPlayer(int gameCode, String playerName) {
-        Game activeGame = getGame(gameCode);
+        var activeGame = getGame(gameCode);
         if (activeGame == null) {
             if (gameCode == 0) {
                 return createNewGameAndAddPlayer(playerName);
@@ -60,7 +60,7 @@ public class SkullKing {
                 return null;
             }
         } else {
-            Player player = activeGame.getPlayer(playerName);
+            var player = activeGame.getPlayer(playerName);
             if (player == null) {
                 if (activeGame.getPlayerCount() < 6 && !activeGame.isInGame()) {
                     return activeGame.addPlayer(playerName);

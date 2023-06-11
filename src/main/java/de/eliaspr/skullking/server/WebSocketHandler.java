@@ -18,23 +18,23 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {
-        String msg = message.getPayload();
+        var msg = message.getPayload();
         if (msg.startsWith("connect")) {
-            Player player = getPlayerFromToken(msg);
+            var player = getPlayerFromToken(msg);
             if (player != null) {
                 logger.info("Player '" + player.name + "' connected with token " + player.accessToken);
                 player.webSocketSession = session;
                 player.game.broadcastGameState();
             }
         } else if (msg.startsWith("disconnect")) {
-            Player player = getPlayerFromToken(msg);
+            var player = getPlayerFromToken(msg);
             if (player != null) {
                 logger.info("Player '" + player.name + "' disconnecting");
                 player.webSocketSession = null;
                 player.game.removePlayer(player);
             }
         } else if (msg.startsWith("game")) {
-            String[] spl = msg.split(":");
+            var spl = msg.split(":");
             if (spl.length > 2) {
                 UUID token = null;
                 try {
@@ -42,7 +42,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
                 } catch (IllegalArgumentException ignored) {
                 }
                 if (token != null) {
-                    Player player = Player.getPlayer(token);
+                    var player = Player.getPlayer(token);
                     if (player != null) {
                         processPlayerCommand(player, spl[2]);
                     }
@@ -63,20 +63,20 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
         } else if (cmd.equals("continue")) {
             player.requestGameContinue();
         } else if (cmd.startsWith("predict")) {
-            String prediction = cmd.substring(7);
+            var prediction = cmd.substring(7);
             try {
-                int predictionNum = Integer.parseInt(prediction);
+                var predictionNum = Integer.parseInt(prediction);
                 player.notifyPredictedWins(predictionNum);
             } catch (NumberFormatException ignored) {
             }
         } else if (cmd.startsWith("play")) {
-            String cardID = cmd.substring(4);
+            var cardID = cmd.substring(4);
             if (cardID.equalsIgnoreCase("scarymary_flag")) {
                 player.notifyPlayCard(Card.SCARY_MARY, ScaryMaryMode.PLAY_AS_FLAG);
             } else if (cardID.equalsIgnoreCase("scarymary_pirate")) {
                 player.notifyPlayCard(Card.SCARY_MARY, ScaryMaryMode.PLAY_AS_PIRATE);
             } else {
-                Card card = Card.getCard(cardID);
+                var card = Card.getCard(cardID);
                 if (card != null) {
                     player.notifyPlayCard(card, null);
                 }
@@ -85,14 +85,14 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
     }
 
     private Player getPlayerFromToken(String message) {
-        UUID token = getPlayerToken(message);
+        var token = getPlayerToken(message);
         return token == null ? null : Player.getPlayer(token);
     }
 
     private UUID getPlayerToken(String message) {
-        int i = message.indexOf(':');
+        var i = message.indexOf(':');
         if (i > 0 && i < message.length() - 1) {
-            String tokenStr = message.substring(i + 1);
+            var tokenStr = message.substring(i + 1);
             try {
                 return UUID.fromString(tokenStr);
             } catch (IllegalArgumentException ignored) {

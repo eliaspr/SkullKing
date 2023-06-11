@@ -42,7 +42,7 @@ public class Game {
     }
 
     public Player getPlayer(String name) {
-        for (Player pl : playerList) {
+        for (var pl : playerList) {
             if (pl.name.equals(name)) {
                 return pl;
             }
@@ -51,7 +51,7 @@ public class Game {
     }
 
     public Player getPlayer(UUID playerToken) {
-        for (Player player : playerList) {
+        for (var player : playerList) {
             if (player.accessToken == playerToken) {
                 return player;
             }
@@ -67,7 +67,7 @@ public class Game {
         if (getPlayerCount() == 6 || getPlayer(playerName) != null) {
             return null;
         }
-        Player player = new Player(playerName, this);
+        var player = new Player(playerName, this);
         player.timeJoined = System.currentTimeMillis();
         logger.info(
                 "Adding player \"" + playerName + "\" to game " + gameCode + " (token: " + player.accessToken + ")");
@@ -115,7 +115,7 @@ public class Game {
             return;
         }
         playerList.sort(Comparator.comparingLong(Player::getTimeJoined));
-        for (Player player : playerList) {
+        for (var player : playerList) {
             player.pointTotal = 0;
         }
         nextPlayer = playerList.get(SkullKing.skullKingRNG.nextInt(playerList.size()));
@@ -130,7 +130,7 @@ public class Game {
         this.playedTricks = 0;
         playedCards.clear();
 
-        for (Player player : playerList) {
+        for (var player : playerList) {
             player.predictedWins = -1;
             player.actualWins = 0;
             player.roundBonusPoints = 0;
@@ -140,14 +140,14 @@ public class Game {
     }
 
     private void shuffleCards() {
-        ArrayList<Card> cards = Card.getCardDeck(true);
-        for (Player player : playerList) {
+        var cards = Card.getCardDeck(true);
+        for (var player : playerList) {
             player.currentCards.clear();
         }
-        for (int i = 1; i <= roundIndex; i++) {
-            for (Player player : playerList) {
-                int j = cards.size() - 1;
-                Card next = cards.get(j);
+        for (var i = 1; i <= roundIndex; i++) {
+            for (var player : playerList) {
+                var j = cards.size() - 1;
+                var next = cards.get(j);
                 cards.remove(j);
                 player.currentCards.add(next);
             }
@@ -158,8 +158,8 @@ public class Game {
         if (gameState == GameState.PREDICTING_WINS) {
             player.predictedWins = numPredicted;
 
-            int playersFinished = 0;
-            for (Player pl : playerList) {
+            var playersFinished = 0;
+            for (var pl : playerList) {
                 if (pl.predictedWins >= 0) {
                     playersFinished++;
                 }
@@ -173,8 +173,8 @@ public class Game {
 
     public void notifyPlayCard(Player player, Card card, ScaryMaryMode scaryMaryMode) {
         if (gameState == GameState.PLAYING_CARDS && player == nextPlayer) {
-            boolean doesPlayerHaveCard = false;
-            for (Card playerCard : player.currentCards) {
+            var doesPlayerHaveCard = false;
+            for (var playerCard : player.currentCards) {
                 if (playerCard == card) {
                     doesPlayerHaveCard = true;
                     break;
@@ -184,14 +184,14 @@ public class Game {
                 return;
             }
 
-            PlayedCard playedCard = new PlayedCard(player, card, scaryMaryMode);
+            var playedCard = new PlayedCard(player, card, scaryMaryMode);
             playCard(playedCard);
         }
     }
 
     private void playCard(PlayedCard playedCard) {
         boolean isPlayAllowed;
-        Card card = playedCard.card;
+        var card = playedCard.card;
         if (card == Card.FLAG
                 || card.isPirate
                 || card == Card.SKULL_KING
@@ -200,7 +200,7 @@ public class Game {
             isPlayAllowed = true;
         } else {
             CardColor forcedColor = null;
-            for (PlayedCard previous : playedCards) {
+            for (var previous : playedCards) {
                 if (previous.isFlag()) {
                     continue;
                 }
@@ -215,8 +215,8 @@ public class Game {
                 } else if (playedCard.card.cardColor == CardColor.BLACK) {
                     isPlayAllowed = true;
                 } else {
-                    boolean doesPlayerHaveColor = false;
-                    for (Card playerCard : playedCard.player.currentCards) {
+                    var doesPlayerHaveColor = false;
+                    for (var playerCard : playedCard.player.currentCards) {
                         if (playerCard.cardColor == forcedColor) {
                             doesPlayerHaveColor = true;
                             break;
@@ -232,15 +232,15 @@ public class Game {
 
         playedCards.add(playedCard);
 
-        Player player1 = playedCard.player;
-        for (int i = 0; i < player1.currentCards.size(); i++) {
+        var player1 = playedCard.player;
+        for (var i = 0; i < player1.currentCards.size(); i++) {
             if (player1.currentCards.get(i) == playedCard.card) {
                 player1.currentCards.remove(i);
                 break;
             }
         }
 
-        int playerIndex = playerList.indexOf(nextPlayer);
+        var playerIndex = playerList.indexOf(nextPlayer);
         playerIndex++;
         if (playerIndex >= playerList.size()) {
             playerIndex = 0;
@@ -248,12 +248,12 @@ public class Game {
         nextPlayer = playerList.get(playerIndex);
 
         if (playedCards.size() == playerList.size()) {
-            PlayedCard winningCard = getWinningCard();
+            var winningCard = getWinningCard();
             if (winningCard == null) {
                 winningCard = playedCards.get(0);
             }
 
-            Player winningPlayer = winningCard.player;
+            var winningPlayer = winningCard.player;
             winningPlayer.actualWins++;
             winningPlayer.roundBonusPoints += winningCard.bonusPointsReceived;
             nextPlayer = winningPlayer;
@@ -261,9 +261,9 @@ public class Game {
             if ((playedTricks + 1) >= roundIndex) {
                 // this was the last trick in this round
 
-                for (Player player : playerList) {
-                    int predicted = player.predictedWins;
-                    int actual = player.actualWins;
+                for (var player : playerList) {
+                    var predicted = player.predictedWins;
+                    var actual = player.actualWins;
 
                     if (predicted == 0) {
                         if (actual == 0) {
@@ -276,7 +276,7 @@ public class Game {
                             player.pointTotal += 20 * predicted;
                             player.pointTotal += player.roundBonusPoints;
                         } else {
-                            int difference = actual > predicted ? actual - predicted : predicted - actual;
+                            var difference = actual > predicted ? actual - predicted : predicted - actual;
                             player.pointTotal -= 10 * difference;
                         }
                     }
@@ -316,15 +316,15 @@ public class Game {
             return null;
         }
 
-        PlayedCard skullKing = wasCardPlayed(Card.SKULL_KING);
+        var skullKing = wasCardPlayed(Card.SKULL_KING);
         if (skullKing != null) {
-            PlayedCard firstMermaid = wasCardPlayed(Card.MERMAID);
+            var firstMermaid = wasCardPlayed(Card.MERMAID);
             if (firstMermaid != null) {
                 firstMermaid.bonusPointsReceived += 50;
                 return firstMermaid;
             } else {
-                int pirateCount = 0;
-                for (PlayedCard playedCard : playedCards) {
+                var pirateCount = 0;
+                for (var playedCard : playedCards) {
                     if (playedCard.isPirate()) {
                         pirateCount++;
                     }
@@ -336,7 +336,7 @@ public class Game {
 
         PlayedCard winningCard = null;
         CardColor acceptedColor = null;
-        for (PlayedCard next : playedCards) {
+        for (var next : playedCards) {
             if (winningCard == null) {
                 winningCard = next;
                 if (!winningCard.isFlag()) {
@@ -403,7 +403,7 @@ public class Game {
     }
 
     private PlayedCard wasCardPlayed(Card cardType) {
-        for (PlayedCard playedCard : playedCards) {
+        for (var playedCard : playedCards) {
             if (playedCard.card == cardType) {
                 return playedCard;
             }
@@ -420,7 +420,7 @@ public class Game {
     public void requestGameContinue() {
         // rely on continueAction to change the gameState
         if (gameState == GameState.WAITING_FOR_CONTINUE) {
-            Runnable old = continueAction;
+            var old = continueAction;
             if (continueAction != null) {
                 continueAction.run();
             }
@@ -440,15 +440,15 @@ public class Game {
 
         // copy to temp list, because sendMessageToPlayer deletes disconnected
         // players which would cause a ConcurrentModificationException
-        ArrayList<Player> tempPlayers = new ArrayList<>(playerList);
-        for (Player player : tempPlayers) {
+        var tempPlayers = new ArrayList<Player>(playerList);
+        for (var player : tempPlayers) {
             var playerCards =
                     player.currentCards.stream().map(x -> x.cardID).toArray(String[]::new);
             var apiModel = new GameStateApiModel(
                     gameStateString, roundIndex, playerCount, playerApiModels, playerCards, player == gameMaster);
 
             try {
-                String jsonString = jsonMapper.writeValueAsString(apiModel);
+                var jsonString = jsonMapper.writeValueAsString(apiModel);
                 PlayerMessenger.sendMessageToPlayer(player, jsonString);
             } catch (JsonProcessingException e) {
                 logger.error("Could not convert GameStateApiModel to json string", e);
@@ -458,7 +458,7 @@ public class Game {
 
     private PlayerApiModel getPlayerApiModel(Player player) {
         PlayedCard playedCard = null;
-        for (PlayedCard pc : playedCards) {
+        for (var pc : playedCards) {
             if (pc.player == player) {
                 playedCard = pc;
                 break;

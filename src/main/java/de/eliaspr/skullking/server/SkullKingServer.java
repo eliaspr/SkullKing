@@ -31,10 +31,10 @@ public class SkullKingServer {
     }
 
     private static byte[] readeFileContents(String file) {
-        try (InputStream is = SkullKingServer.class.getResourceAsStream("/" + file)) {
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        try (var is = SkullKingServer.class.getResourceAsStream("/" + file)) {
+            var buffer = new ByteArrayOutputStream();
             int nRead;
-            byte[] data = new byte[1024];
+            var data = new byte[1024];
             while ((nRead = is.read(data, 0, data.length)) != -1) {
                 buffer.write(data, 0, nRead);
             }
@@ -102,7 +102,7 @@ public class SkullKingServer {
     }
 
     private String makeHtmlPage(Consumer<StringBuilder> body) {
-        StringBuilder html = new StringBuilder();
+        var html = new StringBuilder();
         html.append(HEADER_HTML);
         html.append("<body>");
         body.accept(html);
@@ -116,7 +116,7 @@ public class SkullKingServer {
     public RedirectView play(
             @RequestParam(value = "code", required = false, defaultValue = "0") int code,
             @RequestParam("name") String playerName) {
-        UUID playerToken = SkullKing.getAccessTokenForPlayer(code, playerName);
+        var playerToken = SkullKing.getAccessTokenForPlayer(code, playerName);
         if (playerToken != null) {
             return new RedirectView("/game/lobby?token=" + playerToken);
         } else {
@@ -133,13 +133,13 @@ public class SkullKingServer {
             tokenUUID = UUID.fromString(playerToken);
         } catch (IllegalArgumentException ignored) {
         }
-        Player player = tokenUUID == null ? null : Player.getPlayer(tokenUUID);
+        var player = tokenUUID == null ? null : Player.getPlayer(tokenUUID);
         if (player == null) {
             return new ModelAndView("redirect:/", modelMap);
         }
 
         return new ModelAndView((model, request, response) -> {
-            String buttonHTML =
+            var buttonHTML =
                     "<button onclick=\"sk_masterButtonPressed()\" type=\"button\" class=\"btn btn-sm btn-success d-none\" id=\"sk-master-button\">Spiel starten</button>";
             response.getWriter()
                     .write(makeHtmlPage(stringBuilder -> stringBuilder.append(LOBBY_HTML

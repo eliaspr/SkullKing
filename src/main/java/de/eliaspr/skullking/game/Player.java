@@ -70,7 +70,7 @@ public class Player {
             return false;
         }
 
-        Player player = (Player) o;
+        var player = (Player) o;
 
         return Objects.equals(accessToken, player.accessToken);
     }

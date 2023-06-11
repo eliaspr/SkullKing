@@ -85,7 +85,7 @@ public enum Card {
     }
 
     public static Card getCard(String cardID) {
-        for (Card card : values()) {
+        for (var card : values()) {
             if (card.cardID.equalsIgnoreCase(cardID)) {
                 return card;
             }
@@ -94,9 +94,9 @@ public enum Card {
     }
 
     public static ArrayList<Card> getCardDeck(boolean shuffled) {
-        ArrayList<Card> list = new ArrayList<>();
-        for (Card card : Card.values()) {
-            for (int i = 0; i < card.instanceCount; i++) {
+        var list = new ArrayList<Card>();
+        for (var card : Card.values()) {
+            for (var i = 0; i < card.instanceCount; i++) {
                 list.add(card);
             }
         }
