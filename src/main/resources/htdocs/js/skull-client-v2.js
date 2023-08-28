@@ -179,6 +179,7 @@ function sk_dom_displayPredictUI(round) {
     }
     predictHTML += '</div>';
     document.getElementById("sk-game-board").innerHTML = predictHTML;
+    document.getElementById("sk-current-round-display").innerHTML = 'Aktuelle Runde: ' + round + '&#47;10';
 }
 
 function sk_makePrediction(predicted) {
