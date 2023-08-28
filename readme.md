@@ -38,7 +38,7 @@ docker build -t skull-king .
 For automated build and release, the project contains a `publish.ps1` script which detects version information, builds the docker image and pushes the image to the specified container registry. Run the script by executing the `publish.ps1` file (make sure to specify the correct docker registry):
 
 ```shell
-powershell.exe -ExecutionPolicy Unrestricted publish.ps1 -DockerRegistry example.docker.io
+powershell.exe -ExecutionPolicy Unrestricted ./publish.ps1 -DockerRegistry example.docker.io
 ```
 
 You can start an instance of the Docker image using the following command (make sure to use the correct image name when pulling from a repository):
