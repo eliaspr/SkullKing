@@ -27,7 +27,7 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-docker image rm $tag
+docker image rm $tagLatest
 docker build -t $tagLatest .
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Docker build failed"
