@@ -20,7 +20,7 @@ Next, run the following command to start a local instance of the SkullKing serve
 gradlew bootRun
 ```
 
-The server uses port `8080` by default. The images shown in the client application are stored in an Azure storage account so make sure the client browser can access and load images from `https://hoerneritpfs.blob.core.windows.net/skullking/...`.
+The server uses port `80` by default. The images shown in the client application are stored in an Azure storage account so make sure the client browser can access and load images from `https://hoerneritpfs.blob.core.windows.net/skullking/...`.
 
 ## Data storage
 
@@ -44,7 +44,7 @@ powershell.exe -ExecutionPolicy Unrestricted publish.ps1 -DockerRegistry example
 You can start an instance of the Docker image using the following command (make sure to use the correct image name when pulling from a repository):
 
 ```shell
-docker run -d --rm --name SkullKing -p 8080:8080 skull-king:latest
+docker run -d --rm --name SkullKing -p 80:80 skull-king:latest
 ```
 
 > **Note**: Any push/pull actions require authentication with the corresponding docker registry. Run `docker login` and provide your credentials in order to pull or push the `skull-king` image.
@@ -58,5 +58,5 @@ services:
     image: 'skull-king:latest'
     container_name: 'SkullKing'
     ports:
-      - '8080:8080'
+      - '80:80'
 ```
