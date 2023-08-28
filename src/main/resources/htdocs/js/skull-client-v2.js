@@ -63,10 +63,13 @@ function sk_processBroadcast(messageJSON) {
         gameState = messageJSON["gameState"];
     lastGameState = gameState;
 
-    if ("cards" in messageJSON)
+    let hasRemainingCards = false;
+    if ("cards" in messageJSON) {
+        hasRemainingCards = messageJSON["cards"].length > 0;
         sk_dom_displayCards(messageJSON["cards"]);
-    else
+    } else {
         sk_dom_displayCards(null);
+    }
 
     let cardPlayingMode = gameState === "PLAYING_CARDS" || gameState === "WAITING_FOR_CONTINUE";
     if ("players" in messageJSON)
@@ -86,7 +89,11 @@ function sk_processBroadcast(messageJSON) {
     if (isGameMaster) {
         if(gameState === "WAITING_FOR_CONTINUE") {
             startButton.classList.remove("d-none");
-            startButton.innerHTML = "N&auml;chste Runde";
+            if (!hasRemainingCards && "roundIndex" in messageJSON && messageJSON["roundIndex"] == 10) {
+                startButton.innerHTML = "Spiel beenden";
+            } else {
+                startButton.innerHTML = "N&auml;chste Runde";
+            }
         } else if (gameState === "FINISHED" || gameState === "WAITING_FOR_START") {
             startButton.classList.remove("d-none");
             startButton.innerText = "Spiel starten";
