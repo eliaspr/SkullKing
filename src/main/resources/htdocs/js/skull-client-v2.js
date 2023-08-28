@@ -63,8 +63,12 @@ function sk_processBroadcast(messageJSON) {
         gameState = messageJSON["gameState"];
     lastGameState = gameState;
 
+    // 'Game finished' page and player cards share an if-statement because they
+    // also share the same root HTML element in which the UI is displayed.
     let hasRemainingCards = false;
-    if ("cards" in messageJSON) {
+    if (gameState === "FINISHED") {
+        sk_dom_displayFinishedAndPlayerRanking("players" in messageJSON ? messageJSON["players"] : null);
+    } else if ("cards" in messageJSON) {
         hasRemainingCards = messageJSON["cards"].length > 0;
         sk_dom_displayCards(messageJSON["cards"]);
     } else {
@@ -107,6 +111,34 @@ function sk_processBroadcast(messageJSON) {
 
 function sk_dom_getCardImg(cardID) {
     return '<img height="200" src="https://hoerneritpfs.blob.core.windows.net/skullking/cards-hq-png/' + cardID + '.png"/>';
+}
+
+function sk_dom_displayFinishedAndPlayerRanking(players) {
+    let newHTML = '<div class="p-3"><h5>Das Spiel ist zu Ende!</h5>';
+    if (players != null) {
+        newHTML += '<div class="mt-2"><div>Ranking:</div>';
+        let playersCopy = [...players];
+        playersCopy.sort((a, b) => {
+            if (b['points'] == a['points']) {
+                return a['name'].localeCompare(b['name']);
+            } else {
+                return b['points'] - a['points'];
+            }
+        });
+        let position = 1;
+        playersCopy.forEach(item => {
+            newHTML += '<div class="mt-1 ms-2">';
+            newHTML += position++;
+            newHTML += '. ';
+            newHTML += item['name'];
+            newHTML += ' (<strong>';
+            newHTML += item['points'];
+            newHTML += '</strong>)</div>';
+        });
+        newHTML += "</div>";
+    }
+    newHTML += '</div>';
+    document.getElementById("sk-own-cards").innerHTML = newHTML;
 }
 
 function sk_dom_displayCards(cards) {
