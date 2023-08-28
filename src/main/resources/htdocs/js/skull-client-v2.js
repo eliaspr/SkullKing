@@ -170,7 +170,6 @@ function sk_dom_displayPlayers(players, isCardPlayingMode) {
             if (item["predicted"] != null && item["actual"] != null)
                 playerHTML += 'Stiche: ' + item["actual"] + " / " + item["predicted"];
             playerHTML += '</div>';
-
         });
     }
     for (let i = (players == null ? 0 : players.length); i < 6; i++)
