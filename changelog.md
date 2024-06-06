@@ -1,5 +1,9 @@
 # SkullKing Online - Changelog
 
+### Version 1.2.0 - June 7th, 2024
+
+- [0b496f6](https://github.com/eliaspr/SkullKing/commit/0b496f6af970a253055834f0b93e637aaac6e40a): Change CDN URLs
+
 ### Version 1.1.0 - August 28th, 2023
 
 - [9dda581](https://github.com/eliaspr/SkullKing/commit/9dda581655ddbe187aaf22f888ee7dabf2b01767): Add missing bottom margin on the main container ([#10](https://github.com/eliaspr/SkullKing/issues/10)).
