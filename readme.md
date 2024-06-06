@@ -18,7 +18,7 @@ Next, run the following command to start a local instance of the SkullKing serve
 gradlew bootRun
 ```
 
-The server uses port `80` by default. The images shown in the client application are stored in an Azure storage account so make sure the client browser can access and load images from `https://hoerneritpfs.blob.core.windows.net/skullking/...`.
+The server uses port `80` by default. The images shown in the client application are stored in an Azure storage account so make sure the client browser can access and load images from `https://skull-king-assets.fra1.digitaloceanspaces.com/...`.
 
 ## Data storage
 

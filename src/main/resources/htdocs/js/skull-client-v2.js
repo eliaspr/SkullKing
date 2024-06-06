@@ -110,7 +110,7 @@ function sk_processBroadcast(messageJSON) {
 }
 
 function sk_dom_getCardImg(cardID) {
-    return '<img height="200" src="https://hoerneritpfs.blob.core.windows.net/skullking/cards-hq-png/' + cardID + '.png"/>';
+    return '<img height="200" src="https://skull-king-assets.fra1.digitaloceanspaces.com/cards-hq-png/' + cardID + '.png"/>';
 }
 
 function sk_dom_displayFinishedAndPlayerRanking(players) {
