@@ -1,0 +1,30 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: 'Publish'
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+      - name: Log in to the container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Make gradlew executable
+        shell: bash
+        run: chmod +x ./gradlew
+      - name: Build and publish app
+        shell: pwsh
+        run: ./publish.ps1 -DockerRegistry ghcr.io/${{ github.repository_owner }}
+        working-directory: './deploy'
