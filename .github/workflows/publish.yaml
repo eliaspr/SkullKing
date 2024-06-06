@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v4
         with:
+          distribution: 'corretto'
           java-version: '21'
       - name: Log in to the container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
