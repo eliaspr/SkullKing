@@ -54,6 +54,13 @@ public class SkullKingServer {
     }
 
     @GetMapping(
+            value = "/img/{file}.jpg",
+            produces = {"image/jpg"})
+    public ResponseEntity<Object> getImageFile(@PathVariable String file) {
+        return getFileContentAsResponse("htdocs/img/" + file + ".jpg", true);
+    }
+
+    @GetMapping(
             value = "/{file}.png",
             produces = {"image/png"})
     public ResponseEntity<Object> getPngIcon(@PathVariable String file) {
