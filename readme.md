@@ -28,7 +28,7 @@ The server stores all game session related data in memory only. Currently, there
 
 Due to copyright concerns, there is no longer a public CDN containing the card images. The repository contains replacement images which convey the meaning of the cards without using pictures of the actual card designs. However, there exists the `skullking.cards.url` application property which you can change to point to any location where you can then host your own card images.
 
-> ![NOTE]
+> [!CAUTION]
 > The current server implementation is anything but optimized for serving static content. This is another reason for hosting the card images on some other server.
 
 ## Build & Deployment
