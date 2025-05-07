@@ -15,6 +15,12 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
 
+    private final String cardsBaseUrl;
+
+    public WebSocketHandler(String cardsBaseUrl) {
+        this.cardsBaseUrl = cardsBaseUrl;
+    }
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) {
         var msg = message.getPayload();
@@ -23,6 +29,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
             if (player != null) {
                 logger.info("Player '" + player.name + "' connected with token " + player.accessToken);
                 player.webSocketSession = session;
+                PlayerMessenger.sendMessageToPlayer(player, "{\"baseUrl\":\"" + cardsBaseUrl + "\"}");
                 player.game.broadcastGameState();
             }
         } else if (msg.startsWith("disconnect")) {

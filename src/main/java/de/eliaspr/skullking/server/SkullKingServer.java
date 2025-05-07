@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
@@ -26,6 +27,9 @@ public class SkullKingServer {
     private static String HEADER_HTML;
     private static String HOME_HTML;
     private static String LOBBY_HTML;
+
+    @Value("${skullking.cards.url}")
+    private String cardsBaseUrl;
 
     static {
         try {
@@ -58,6 +62,20 @@ public class SkullKingServer {
             produces = {"image/jpg"})
     public ResponseEntity<Object> getImageFile(@PathVariable String file) {
         return getFileContentAsResponse("htdocs/img/" + file + ".jpg", true);
+    }
+
+    @GetMapping(
+            value = "/img/cards/{file}.png",
+            produces = {"image/png"})
+    public ResponseEntity<Object> getCardImageFile(@PathVariable String file) {
+        var shouldServerCards = cardsBaseUrl.equals("/img/cards/");
+        
+        if (!shouldServerCards) {
+            // Don't serve the card images if the image URL is configured to some external location
+            return ResponseEntity.notFound().build();
+        }
+        
+        return getFileContentAsResponse("htdocs/img/cards/" + file + ".png", true);
     }
 
     @GetMapping(

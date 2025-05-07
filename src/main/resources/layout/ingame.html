@@ -47,13 +47,13 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="w-50" style="cursor: pointer;" onclick="sk_playCard('scarymary_flag')">
-                        <img class="w-100" src="https://skull-king-assets.fra1.digitaloceanspaces.com/cards-hq-png/scarymary-flag.png"/>
+                        <img class="w-100" id="scarymaryFlagImg"/>
                         <span style="font-size: .85em;">
                             Scary Mary als <strong>Flagge</strong> spielen
                         </span>
                     </div>
                     <div class="w-50" style="cursor: pointer;" onclick="sk_playCard('scarymary_pirate')">
-                        <img class="w-100" src="https://skull-king-assets.fra1.digitaloceanspaces.com/cards-hq-png/scarymary-pirate.png"/><br>
+                        <img class="w-100" id="scarymaryPirateImg"/><br>
                         <span style="font-size: .85em;">
                             Scary Mary als <strong>Pirat</strong> spielen
                         </span>
@@ -64,4 +64,9 @@
     </div>
 </div>
 
-<script>sk_clientInit()</script>
+<script>
+    sk_clientInit(() => {
+        document.getElementById('scarymaryFlagImg').src = sk_dom_getCardImageUrl('scarymary-flag')
+        document.getElementById('scarymaryPirateImg').src = sk_dom_getCardImageUrl('scarymary-pirate')
+    })
+</script>

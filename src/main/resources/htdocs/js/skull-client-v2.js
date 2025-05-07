@@ -22,11 +22,12 @@ function sk_getPlayerToken() {
     return document.getElementById("player-token").innerText;
 }
 
+let skullKingCardImageBaseUrl = null;
 let skullKingSocket = null;
 let lastPrediction = -1;
 let lastGameState = "";
 
-function sk_clientInit() {
+function sk_clientInit(afterBaseUrlSetCallback) {
     skullKingSocket = new WebSocket(((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/ws");
 
     skullKingSocket.onopen = function (event) {
@@ -43,8 +44,15 @@ function sk_clientInit() {
 
     skullKingSocket.onmessage = function (event) {
         let messageJSON = JSON.parse(event.data);
-        if(!("aliveAnswer" in messageJSON))
+        if ("baseUrl" in messageJSON) {
+            skullKingCardImageBaseUrl = messageJSON["baseUrl"]
+            if (!skullKingCardImageBaseUrl.endsWith("/"))
+                skullKingCardImageBaseUrl = skullKingCardImageBaseUrl + "/"
+            console.log("Base url is set to: " + skullKingCardImageBaseUrl)
+            afterBaseUrlSetCallback()
+        } else if(!("aliveAnswer" in messageJSON)) {
             sk_processBroadcast(messageJSON);
+        }
     };
 
     setInterval(() => {
@@ -109,8 +117,12 @@ function sk_processBroadcast(messageJSON) {
     }
 }
 
+function sk_dom_getCardImageUrl(cardID) {
+    return skullKingCardImageBaseUrl + cardID + '.png';
+}
+
 function sk_dom_getCardImg(cardID) {
-    return '<img height="200" src="https://skull-king-assets.fra1.digitaloceanspaces.com/cards-hq-png/' + cardID + '.png"/>';
+    return '<img height="200" src="' + sk_dom_getCardImageUrl(cardID) + '"/>';
 }
 
 function sk_dom_displayFinishedAndPlayerRanking(players) {

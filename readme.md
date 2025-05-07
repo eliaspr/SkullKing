@@ -18,11 +18,18 @@ Next, run the following command to start a local instance of the SkullKing serve
 gradlew bootRun
 ```
 
-The server uses port `8080` by default. The images shown in the client application are stored in an Azure storage account so make sure the client browser can access and load images from `https://skull-king-assets.fra1.digitaloceanspaces.com/...`.
+The server uses port `8080` by default. Access the application using multiple browsers and start your first game!
 
 ## Data storage
 
 The server stores all game session related data in memory only. Currently, there is no option to persist that data.
+
+## Card images
+
+Due to copyright concerns, there is no longer a public CDN containing the card images. The repository contains replacement images which convey the meaning of the cards without using pictures of the actual card designs. However, there exists the `skullking.cards.url` application property which you can change to point to any location where you can then host your own card images.
+
+> ![NOTE]
+> The current server implementation is anything but optimized for serving static content. This is another reason for hosting the card images on some other server.
 
 ## Build & Deployment
 
@@ -42,7 +49,7 @@ powershell -ExecutionPolicy Unrestricted ./publish.ps1 -DockerRegistry example.d
 You can start an instance of the Docker image using the following command (make sure to use the correct image name when pulling from a repository):
 
 ```shell
-docker run -d --rm --name SkullKing -p 8080:8080 skull-king:latest
+docker run --rm --name SkullKing -p 8080:8080 skull-king:latest
 ```
 
 > **Note**: Any push/pull actions require authentication with the corresponding docker registry. Run `docker login` and provide your credentials in order to pull or push the `skull-king` image.
@@ -58,3 +65,5 @@ services:
     ports:
       - '8080:8080'
 ```
+
+Using either option, don't forget you can set the `skullking.cards.url` environment variable as described above.
