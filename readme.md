@@ -9,7 +9,7 @@ See a list of recent changes in [changelog.md](./changelog.md).
 Use the following command to clone a copy of the repository:
 
 ```shell
-git clone https://github.com/eliaspr/SkullKing
+git clone git@github.com:eliaspr/SkullKing.git
 ```
 
 Next, run the following command to start a local instance of the SkullKing server:
@@ -18,7 +18,7 @@ Next, run the following command to start a local instance of the SkullKing serve
 gradlew bootRun
 ```
 
-The server uses port `80` by default. The images shown in the client application are stored in an Azure storage account so make sure the client browser can access and load images from `https://skull-king-assets.fra1.digitaloceanspaces.com/...`.
+The server uses port `8080` by default. The images shown in the client application are stored in an Azure storage account so make sure the client browser can access and load images from `https://skull-king-assets.fra1.digitaloceanspaces.com/...`.
 
 ## Data storage
 
@@ -36,13 +36,13 @@ docker build -t skull-king .
 For automated build and release, the project contains a `publish.ps1` script which detects version information, builds the docker image and pushes the image to the specified container registry. Run the script by executing the `publish.ps1` file (make sure to specify the correct docker registry):
 
 ```shell
-powershell.exe -ExecutionPolicy Unrestricted ./publish.ps1 -DockerRegistry example.docker.io
+powershell -ExecutionPolicy Unrestricted ./publish.ps1 -DockerRegistry example.docker.io
 ```
 
 You can start an instance of the Docker image using the following command (make sure to use the correct image name when pulling from a repository):
 
 ```shell
-docker run -d --rm --name SkullKing -p 80:80 skull-king:latest
+docker run -d --rm --name SkullKing -p 8080:8080 skull-king:latest
 ```
 
 > **Note**: Any push/pull actions require authentication with the corresponding docker registry. Run `docker login` and provide your credentials in order to pull or push the `skull-king` image.
@@ -56,5 +56,5 @@ services:
     image: 'skull-king:latest'
     container_name: 'SkullKing'
     ports:
-      - '80:80'
+      - '8080:8080'
 ```

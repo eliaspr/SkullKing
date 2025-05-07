@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY build/libs/SkullKingServer.jar .
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["java", "-jar", "SkullKingServer.jar"]
