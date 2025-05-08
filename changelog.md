@@ -1,5 +1,13 @@
 # SkullKing Online - Changelog
 
+### Version 1.3.0 - May 8th, 2025
+
+- [b18ddbc](https://github.com/eliaspr/SkullKing/commit/b18ddbca721b89c3f2f0b78d12dbceb37491fa6f): The server which serves the card images is now configurable via the `skullking.cards.url` environment variable.
+- [aec573b](https://github.com/eliaspr/SkullKing/commit/aec573b7cc3e8e4cf3cc8cc592327e1d29e9da71): Background image is now server by the SkullKing game server.
+- [f04ca53](https://github.com/eliaspr/SkullKing/commit/f04ca537e7aa83c467ebbc98c08de8cd1e2593a1): Bootstrap & jQuery are now served by the SkullKing game server.
+- [04d3f74](https://github.com/eliaspr/SkullKing/commit/04d3f740a627220eae96471ea4f318c23055f37b): Changed the default port to `8080`.
+- [737eec0](https://github.com/eliaspr/SkullKing/commit/737eec0204d21d24f3fd99e878a343a9447421e9): SkullKing code is now licensed under MIT.
+
 ### Version 1.2.0 - June 7th, 2024
 
 - [0b496f6](https://github.com/eliaspr/SkullKing/commit/0b496f6af970a253055834f0b93e637aaac6e40a): Change CDN URLs
