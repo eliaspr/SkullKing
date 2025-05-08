@@ -1,5 +1,9 @@
 # SkullKing Online - Changelog
 
+### Version 1.3.1 - May 8th, 2025
+
+- [c3eb411](https://github.com/eliaspr/SkullKing/commit/c3eb41133f4350831967275a531ceca5e835c2b5): Fix Scary Mary modal not working due to Bootstrap update
+
 ### Version 1.3.0 - May 8th, 2025
 
 - [b18ddbc](https://github.com/eliaspr/SkullKing/commit/b18ddbca721b89c3f2f0b78d12dbceb37491fa6f): The server which serves the card images is now configurable via the `skullking.cards.url` environment variable.
