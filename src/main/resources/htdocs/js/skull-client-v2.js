@@ -26,6 +26,7 @@ let skullKingCardImageBaseUrl = null;
 let skullKingSocket = null;
 let lastPrediction = -1;
 let lastGameState = "";
+let scaryMaryModal = null;
 
 function sk_clientInit(afterBaseUrlSetCallback) {
     skullKingSocket = new WebSocket(((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/ws");
@@ -254,11 +255,15 @@ function sk_makePrediction(predicted) {
 }
 
 function sk_playCard(cardID) {
+    if (scaryMaryModal === null) {
+        scaryMaryModal = new bootstrap.Modal('#scaryMaryModal');
+    }
+
     if (cardID === "scarymary") {
-        $("#scaryMaryModal").modal();
+        scaryMaryModal.show();
     } else {
         if(cardID.startsWith("scarymary_"))
-            $("#scaryMaryModal").modal("hide");
+            scaryMaryModal.hide();
         sk_sendGameCommand("play" + cardID);
     }
 }
